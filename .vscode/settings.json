@@ -1,4 +1,9 @@
 {
+////////////////////////////////////////////////////////
+// recommended settings - START
+// from https://dartcode.org/docs/recommended-settings/
+////////////////////////////////////////////////////////
+
 	// Causes the debug view to automatically appear when a breakpoint is hit. This
 	// setting is global and not configurable per-language.
 	"debug.openDebug": "openOnDebugBreak",
@@ -46,5 +51,30 @@
 		// This results in code completion suggesting words when editing comments and
 		// strings. This setting will prevent that.
 		"editor.wordBasedSuggestions": false,
-	}
+	},
+
+////////////////////////////////////////////////////////
+// recommended settings - END
+////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////
+// fvm recommended settings - START
+// from https://fvm.app/docs/getting_started/configuration/
+////////////////////////////////////////////////////////
+
+    "dart.flutterSdkPath": "/Users/judekang/fvm/versions/3.7.0",
+    // Remove .fvm files from search
+    "search.exclude": {
+      "**/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+      "**/.fvm": true
+    }
+    
+////////////////////////////////////////////////////////
+// fvm recommended settings - END
+////////////////////////////////////////////////////////
+
 }
