@@ -134,3 +134,7 @@ app.*.symbols
 
 # fvm
 .fvm/flutter_sdk
+
+# firebase
+firebase_options.dart
+google-services.json
