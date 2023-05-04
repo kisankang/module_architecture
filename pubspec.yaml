@@ -40,6 +40,7 @@ dependencies:
   flutter_localization: ^0.1.10
   flutter_native_splash: ^2.2.19
   flutter_easyloading: ^3.0.5
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
