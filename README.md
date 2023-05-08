@@ -54,3 +54,18 @@ module_architecture
 
 #### 2. FVM
  change Flutter version for your project from ***"dart.flutterSdkPath"*** in ***.vscode/settings.json***
+
+
+
+### commands
+1. Generate .g file command
+<br>
+flutter pub run build_runner build --delete-conflicting-outputs
+
+2. Generate splash screen
+<br>
+flutter pub run flutter_native_splash:create
+
+3. Generate app logo launcher
+<br>
+flutter pub run flutter_launcher_icons:main

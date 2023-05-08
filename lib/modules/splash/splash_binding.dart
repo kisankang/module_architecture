@@ -4,6 +4,6 @@ import 'package:module_architecture/modules/splash/splash_controller.dart';
 class SplashBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => SplashController());
+    Get.lazyPut(() => SplashController(localService: Get.find()));
   }
 }
