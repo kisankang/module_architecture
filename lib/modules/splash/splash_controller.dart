@@ -1,37 +1,43 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:module_architecture/data/services/local_service.dart';
 import 'package:module_architecture/routes/app_pages.dart';
+import 'package:module_architecture/utils/log.dart';
+
+int delay = 0;
 
 class SplashController extends GetxController {
-  SplashController();
+  LocalService localService;
+  SplashController({required this.localService});
 
   goToWelcomePage() {
-    FlutterNativeSplash.remove();
-    Get.offAllNamed(Routes.WELCOME);
+    Future.delayed(Duration(seconds: delay), () {
+      FlutterNativeSplash.remove();
+      Get.offAllNamed(Routes.WELCOME);
+    });
   }
 
-  load() async {
-    bool loadResult = false;
+  goToLoginPage() {
+    Future.delayed(Duration(seconds: delay), () {
+      FlutterNativeSplash.remove();
+      Get.offAllNamed(Routes.LOGIN);
+    });
+  }
 
-    // Add some load data process
-    await Future.delayed(const Duration(milliseconds: 3000))
-        .then((value) => loadResult = true);
-
-    if (loadResult) {
+  load() {
+    final token = localService.token;
+    if (token != null) {
+      logSuccess(token);
       goToWelcomePage();
     } else {
-      //
+      goToLoginPage();
     }
   }
 
   @override
-  void onInit() async {
-    await load();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
+  void onInit() {
     super.onInit();
+    load();
   }
 }

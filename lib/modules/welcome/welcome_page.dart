@@ -13,7 +13,15 @@ class WelComePage extends GetWidget<WelcomeController> {
         appBar: AppBar(
           title: const Text('Welcome Page'),
         ),
-        body: Center(child: Text('hello'.tr)),
+        body: Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('hello'.tr),
+            ElevatedButton(
+                onPressed: controller.onPressEnter, child: Text('Enter'))
+          ],
+        )),
       ),
     );
   }

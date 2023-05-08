@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -5,15 +6,26 @@ import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:module_architecture/common/theme/app_theme.dart';
 import 'package:module_architecture/common/translations/localization_service.dart';
+import 'package:module_architecture/data/services/account_service.dart';
+import 'package:module_architecture/data/services/auth_service.dart';
+import 'package:module_architecture/data/services/local_service.dart';
 import 'package:module_architecture/data/services/theme_service.dart';
 import 'package:module_architecture/routes/app_pages.dart';
 import 'package:module_architecture/utils/scroll_behavior.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   Get.put<ThemeService>(ThemeService(), permanent: true);
+  Get.put<LocalService>(LocalService(), permanent: true);
+  Get.put<AccountService>(AccountService(), permanent: true);
+  await Firebase.initializeApp();
+  Get.put<AuthService>(
+    AuthService(accountService: Get.find()),
+    permanent: true,
+  );
 
   var getMaterialApp = GetMaterialApp(
     themeMode: ThemeService().getThemeMode(),
