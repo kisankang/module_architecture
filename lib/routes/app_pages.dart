@@ -1,8 +1,14 @@
 import 'package:get/get.dart';
+import 'package:module_architecture/modules/create_post/create_binding.dart';
+import 'package:module_architecture/modules/create_post/create_post_page.dart';
+import 'package:module_architecture/modules/forum/forum_binding.dart';
+import 'package:module_architecture/modules/forum/forum_page.dart';
 import 'package:module_architecture/modules/login/login_binding.dart';
 import 'package:module_architecture/modules/login/login_page.dart';
 import 'package:module_architecture/modules/main/main_binding.dart';
 import 'package:module_architecture/modules/main/main_page.dart';
+import 'package:module_architecture/modules/open_post/open_post_binding.dart';
+import 'package:module_architecture/modules/open_post/open_post_page.dart';
 import 'package:module_architecture/modules/reset_pw/reset_pw_binding.dart';
 import 'package:module_architecture/modules/reset_pw/reset_pw_page.dart';
 import 'package:module_architecture/modules/sign_up/sign_up_binding.dart';
@@ -45,6 +51,21 @@ abstract class AppPages {
       name: Routes.MAIN,
       page: () => const MainPage(),
       binding: MainBinding(),
+    ),
+    GetPage(
+      name: Routes.FORUM,
+      page: () => const ForumPage(),
+      binding: ForumBinding(),
+    ),
+    GetPage(
+      name: Routes.CREATEPOST,
+      page: () => const CreatePostPage(),
+      binding: CreatePostBinding(),
+    ),
+    GetPage(
+      name: Routes.OPENPOST,
+      page: () => const OpenPostPage(),
+      binding: OpenPostBinding(),
     ),
   ];
 }

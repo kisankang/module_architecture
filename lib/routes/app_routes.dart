@@ -7,4 +7,7 @@ abstract class Routes {
   static const SIGNUP = '/sign_up';
   static const RESETPW = '/reset_pw';
   static const MAIN = '/main';
+  static const FORUM = '/forum';
+  static const CREATEPOST = '/create_post';
+  static const OPENPOST = '/open_post';
 }

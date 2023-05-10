@@ -6,24 +6,38 @@ import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:module_architecture/common/theme/app_theme.dart';
 import 'package:module_architecture/common/translations/localization_service.dart';
+import 'package:module_architecture/data/repositories/forum_repository.dart';
+import 'package:module_architecture/data/repositories/user_repository.dart';
 import 'package:module_architecture/data/services/account_service.dart';
 import 'package:module_architecture/data/services/auth_service.dart';
+import 'package:module_architecture/data/services/forum_service.dart';
 import 'package:module_architecture/data/services/local_service.dart';
 import 'package:module_architecture/data/services/theme_service.dart';
+import 'package:module_architecture/data/services/user_service.dart';
 import 'package:module_architecture/routes/app_pages.dart';
 import 'package:module_architecture/utils/scroll_behavior.dart';
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp();
 
   Get.put<ThemeService>(ThemeService(), permanent: true);
   Get.put<LocalService>(LocalService(), permanent: true);
   Get.put<AccountService>(AccountService(), permanent: true);
-  await Firebase.initializeApp();
+  Get.put<UserRepository>(UserRepository(), permanent: true);
+  Get.put<UserService>(
+    UserService(userRepository: Get.find()),
+    permanent: true,
+  );
   Get.put<AuthService>(
-    AuthService(accountService: Get.find()),
+    AuthService(
+      accountService: Get.find(),
+      userService: Get.find(),
+    ),
+    permanent: true,
+  );
+  Get.put<ForumRepository>(ForumRepository(), permanent: true);
+  Get.put<ForumService>(
+    ForumService(firebaseRepository: Get.find()),
     permanent: true,
   );
 
@@ -66,5 +80,9 @@ Future<void> main() async {
       ),
     ),
   );
+
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(getMaterialApp);
 }

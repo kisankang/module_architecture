@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:module_architecture/modules/forum/forum_page.dart';
 import 'package:module_architecture/modules/main/main_controller.dart';
 import 'package:module_architecture/widgets/wrap_page.dart';
 
@@ -40,7 +41,7 @@ class MainPage extends GetWidget<MainController> {
           children: [
             Center(child: Text('Home')),
             Center(child: Text('Chat')),
-            Center(child: Text('Forum')),
+            ForumPage(),
             Center(child: Text('Profile')),
           ],
         ),
