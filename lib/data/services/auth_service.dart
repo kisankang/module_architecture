@@ -1,12 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:module_architecture/data/models/account.dart';
 import 'package:module_architecture/data/services/account_service.dart';
+import 'package:module_architecture/data/services/user_service.dart';
 import 'package:module_architecture/utils/custom_dialog.dart';
 import 'package:module_architecture/utils/log.dart';
 
 class AuthService extends GetxService {
-  AccountService accountService;
-  AuthService({required this.accountService});
+  AccountService _accountService;
+  UserService _userService;
+  AuthService({
+    required AccountService accountService,
+    required UserService userService,
+  })  : _accountService = accountService,
+        _userService = userService;
 
   final _authEvent = Rx<AuthEvent?>(null);
 
@@ -17,14 +24,14 @@ class AuthService extends GetxService {
   int? _forceResendingToken;
 
   _eraseMyAccount() {
-    accountService.me.value = null;
+    _accountService.me.value = null;
   }
 
   signInAnonymously() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInAnonymously();
-      accountService.setMyAccount(userCredential);
+      _accountService.setMyAccount(userCredential);
     } on FirebaseAuthException catch (e) {
       CustomDialog.fail(e.message ?? e.code);
     } catch (e) {
@@ -38,7 +45,11 @@ class AuthService extends GetxService {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      accountService.setMyAccount(userCredential);
+      _accountService.setMyAccount(userCredential);
+      Account? account = await _userService.getUser(userCredential.user!.uid);
+      if (account == null) {
+        await _userService.createUser(_accountService.myAccount!);
+      }
       result = true;
     } on FirebaseAuthException catch (e) {
       CustomDialog.fail(e.message ?? e.code);
@@ -54,7 +65,8 @@ class AuthService extends GetxService {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      accountService.setMyAccount(userCredential);
+      await _accountService.setMyAccount(userCredential);
+      await _userService.createUser(_accountService.myAccount!);
       result = true;
     } on FirebaseAuthException catch (e) {
       CustomDialog.fail(e.message ?? e.code);
@@ -72,7 +84,7 @@ class AuthService extends GetxService {
       );
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      accountService.setMyAccount(userCredential);
+      _accountService.setMyAccount(userCredential);
       return true;
     } on FirebaseAuthException catch (e) {
       CustomDialog.fail(e.message ?? e.code);
